@@ -1,15 +1,15 @@
 import prisma from "@pisma/client";
 import type { NextApiRequest , NextApiResponse } from "next";
-import {  VacationType } from '@prisma/client';
+import {  Vacation } from '@prisma/client';
 
 export default async function createVacationType(req: NextApiRequest, res: NextApiResponse){
     try {
-        const vacationType : VacationType  = JSON.parse(req.body);
-        await prisma.vacationType.create({
-            data: vacationType
+        const vacation : Vacation  = JSON.parse(req.body);
+        await prisma.vacation.create({
+            data: vacation
         });
         return res.status(200).json({
-            message: 'Vacation type created successfully'
+            message: 'Vacation created successfully'
         });
     } catch (error) {
         return { message: 'Something went wrong' };
