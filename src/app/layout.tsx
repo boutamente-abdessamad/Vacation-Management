@@ -4,7 +4,7 @@ import  {Navbar}  from "@components/layout/Navbar";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
 import NextTopLoader from 'nextjs-toploader';
-
+import ReactQueryProvider from "@utils/ReactQueryProvider";
 
 import "./globals.css";
 
@@ -19,6 +19,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  // Create a client
+
   return (
     <html lang="en">
       <ConfigProvider theme={theme}>
@@ -28,16 +31,18 @@ export default function RootLayout({
         shadow="0 0 10px #713f12,0 0 5px #713f12"
       />
       <AntdRegistry>
-          {/* Navbar */}
-          <Navbar />
-          {/* Navbar */}
+          <ReactQueryProvider >
+              {/* Navbar */}
+              <Navbar />
+              {/* Navbar */}
 
-          {/* Sidebar */}
-          <Sidebar />
-          {/* Sidebar */}
-          {/* children */}
-          {children}
-          {/* children */}
+              {/* Sidebar */}
+              <Sidebar />
+              {/* Sidebar */}
+              {/* children */}
+              {children}
+              {/* children */}
+        </ReactQueryProvider>
       </AntdRegistry>
         
         </body>

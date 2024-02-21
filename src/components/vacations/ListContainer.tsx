@@ -1,6 +1,6 @@
 "use client";
 import BodyWrapper from '@components/BodyWrapper';
-import Datatable from '@components/clients/Datatable';
+import Datatable from '@/components/employees/Datatable';
 import Toolbar from '@components/Toolbar';
 
 export default function ListContainer() {
@@ -10,7 +10,7 @@ export default function ListContainer() {
             <Toolbar
                 title="Vacations"
                 buttonTitle="Add Vacation"
-                onClick={() => console.log('clicked')}
+                handelClick={() => console.log('clicked')}
             />
             <Datatable />
         </BodyWrapper>

@@ -1,94 +1,103 @@
 "use client";
-import React from 'react';
-import { Space, Table, Tag } from 'antd';
+import React,{useState} from 'react';
+import { Space, Table,message,Button,Popconfirm  } from 'antd';
+import {  VacationType } from '@prisma/client';
+import { useMutation ,useQuery} from '@tanstack/react-query'
+import {deleteVacationType} from "@api/client/vacationTypes"
 import type { TableProps } from 'antd';
-
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-const columns: TableProps<DataType>['columns'] = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+import { DeleteOutlined ,EditOutlined} from '@ant-design/icons';
+import { getVacationTypes } from '@api/client/vacationTypes';
+import { useRouter } from 'next/navigation';
 
 
-const DataTable: React.FC = () => (
+
+
+export default   function  DataTable({
+  vacations,
+  isLoading = false,
+} : {
+  vacations: VacationType[];
+  isLoading: boolean;
+}) {
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const [routerLoading , setRouterLoading] = useState<number>(0);
+  const router = useRouter();
+  const { refetch } = useQuery({
+    queryKey: ["vacation-types"],
+    queryFn: getVacationTypes,
+  })
+
+  const {mutate} = useMutation(
+    {
+        mutationFn : deleteVacationType,
+        onSuccess: () => {
+            messageApi.open({
+                type: 'success',
+                content: 'Vacation type deleted successfully',
+              });
+              refetch();
+        },
+        onError: (error) => {
+            messageApi.open({
+                type: 'error',
+                content: error.message,
+            });
+        }
+    }
+)
+
+
+  const columns: TableProps<VacationType>['columns'] = [
+    {
+      title: 'Label',
+      dataIndex: 'label',
+      key: 'label',
+      render: (text) => text,
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+            <Button 
+                type="primary"  
+                icon={<EditOutlined />} 
+                size="middle"
+                onClick={()=>{
+                    setRouterLoading(record.id);
+                  router.push(`/vacation-types/edit/${record.id}`)
+                }}
+                loading={routerLoading==record.id ? true : false}
+              />
+              <Popconfirm
+                title="Delete the type"
+                description="Are you sure to delete this type?"
+                onConfirm={()=>{
+                  mutate(record.id);
+                }}
+                okText="Yes"
+                cancelText="No"
+              >
+              <Button 
+                type="primary" 
+                danger  
+                icon={<DeleteOutlined />} 
+                size="middle" 
+              />
+            </Popconfirm>
+           
+        </Space>
+      ),
+    },
+  ];
+
+
+  return (    
     <div className=" bg-white  shadow-md p-4 rounded-md mb-4">
-            <Table columns={columns} dataSource={data} />
-    </div>
-);
-
-export default DataTable;
+      {contextHolder}
+      <Table loading={isLoading} columns={columns} dataSource={vacations} />
+  </div>
+      
+      );
+}
