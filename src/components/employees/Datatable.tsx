@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Space, Table, Tag } from 'antd';
+import { Space, Table } from 'antd';
 import type { TableProps } from 'antd';
 import {  VacationType } from '@prisma/client';
 
@@ -24,7 +24,6 @@ const columns: TableProps<VacationType>['columns'] = [
     ),
   },
 ];
-
 
 
 export default   function  DataTable({

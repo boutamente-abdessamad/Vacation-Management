@@ -1,16 +1,17 @@
 
-import ListContainer from '@components/vacationTypes/ListContainer';
+import VacationForm from '@components/vacations/VacationForm';
 import { dehydrate , HydrationBoundary , QueryClient } from '@tanstack/react-query'; 
-import { getVacations } from '@api/client/vacations';
+import { getVacationTypes } from '@api/client/vacationTypes';
 export default async function Page() {
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["vacations"],
-    queryFn: getVacations,
+    queryKey: ["vacation-types"],
+    queryFn: getVacationTypes,
   })
 
+
   return  <HydrationBoundary state={dehydrate(queryClient)}> 
-      <ListContainer  />
+      <VacationForm  />
     </HydrationBoundary>;
 }
