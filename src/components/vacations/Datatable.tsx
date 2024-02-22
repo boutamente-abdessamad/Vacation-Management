@@ -51,6 +51,12 @@ export default   function  DataTable({
 
   const columns: TableProps<Vacation>['columns'] = [
     {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+      render: (title) => title,
+    },
+    {
       title: 'Vacation type',
       dataIndex: 'vacation_type',
       key: 'vacation_type',

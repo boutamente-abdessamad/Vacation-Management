@@ -1,8 +1,10 @@
 
-import ListContainer from '@components/vacations/ListContainer';
+import EmployeeForm from '@components/employees/EmployeeForm';
 import { dehydrate , HydrationBoundary , QueryClient } from '@tanstack/react-query'; 
 import { getVacations } from '@api/client/vacations';
+
 export default async function Page() {
+
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
@@ -11,6 +13,6 @@ export default async function Page() {
   })
 
   return  <HydrationBoundary state={dehydrate(queryClient)}> 
-      <ListContainer  />
-    </HydrationBoundary>;
+  <EmployeeForm />
+</HydrationBoundary>;
 }

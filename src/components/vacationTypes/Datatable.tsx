@@ -13,10 +13,10 @@ import { useRouter } from 'next/navigation';
 
 
 export default   function  DataTable({
-  vacations,
+  vacationsTypes,
   isLoading = false,
 } : {
-  vacations: VacationType[];
+  vacationsTypes: VacationType[];
   isLoading: boolean;
 }) {
 
@@ -96,7 +96,7 @@ export default   function  DataTable({
   return (    
     <div className=" bg-white  shadow-md p-4 rounded-md mb-4">
       {contextHolder}
-      <Table loading={isLoading} columns={columns} dataSource={vacations} />
+      <Table loading={isLoading} columns={columns} dataSource={vacationsTypes} />
   </div>
       
       );

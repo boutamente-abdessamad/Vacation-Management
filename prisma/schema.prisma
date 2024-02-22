@@ -30,6 +30,7 @@ model Employee {
 // vacations.prisma
 model Vacation {
   id              Int           @id @default(autoincrement())
+  title             String    @default("Vacation")
   start_at        DateTime
   end_at          DateTime
   vacationTypeId  Int
@@ -38,6 +39,7 @@ model Vacation {
   employees       Employee[]    // Remove this field
   vacation_employees VacationEmployees[]
 }
+
 
 // vacation_types.prisma
 model VacationType {

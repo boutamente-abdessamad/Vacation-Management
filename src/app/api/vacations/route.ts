@@ -7,10 +7,8 @@ type CreateVacationInput = Omit<Vacation, 'id'>;
 
 export  async function POST(req: NextRequest){
     try {
-        console.log("------------------req.body-----------------");
         let passedValue = await new Response(req.body).text();
         let body = JSON.parse(passedValue);
-        console.log(body);
         const vacation : CreateVacationInput  = body;
            // Ensure the request body is not empty
         if (!vacation) {

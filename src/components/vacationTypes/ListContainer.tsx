@@ -1,10 +1,10 @@
 "use client";
 import { useState } from 'react';
 import BodyWrapper from '@components/BodyWrapper';
-import Datatable from '@/components/vacations/Datatable';
+import Datatable from '@/components/vacationTypes/Datatable';
 import Toolbar from '@components/Toolbar';
 import { useQuery } from '@tanstack/react-query'; 
-import { getVacations } from '@api/client/vacations';
+import { getVacationTypes } from '@api/client/vacationTypes';
 import { Alert, Space } from 'antd';
 import { useRouter } from 'next/navigation';
 
@@ -15,8 +15,8 @@ export default function ListContainer() {
 
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["vacations"],
-        queryFn: getVacations,
+        queryKey: ["vacation-types"],
+        queryFn: getVacationTypes,
     })
 
     return (    
@@ -41,7 +41,7 @@ export default function ListContainer() {
             }
            
             <Datatable 
-                vacations={data || []}
+                vacationsTypes={data || []}
                 isLoading={isLoading}
             />
         </BodyWrapper>

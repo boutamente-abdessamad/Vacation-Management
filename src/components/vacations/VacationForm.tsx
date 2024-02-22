@@ -11,10 +11,12 @@ import {  Vacation } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import dayjs , { type Dayjs }from 'dayjs';
 import { Spin } from 'antd';
+import InputField from '@components/Fields/InputField';
 
 type VacationInput = Partial<Vacation>;
 
 const validationSchema = yup.object({
+    title : yup.string().required('Title is required'),
     start_at : yup.date().required('Start date is required'),
     end_at : yup.date().required('End date is required'),
     vacationTypeId : yup.number().required('Type is required').min(1),
@@ -37,6 +39,7 @@ export default function VacationForm({ id }:{ id? :number}) {
     const [startAt, setStartAt] = useState<Dayjs>(dayjs());
     const [endAt, setEndAt] = useState<Dayjs>(dayjs());
     const [status, setStatus] = useState<"PENDING"|"APPROVED"|"REJECTED">("PENDING");
+    const [title, setTitle] = useState<string>("");
 
 
 
@@ -128,6 +131,7 @@ export default function VacationForm({ id }:{ id? :number}) {
             setEndAt(dayjs(vacationData?.end_at))
             setStatus(vacationData.status)
             setVacationTypeId(vacationData?.vacationTypeId)
+            setTitle(vacationData?.title)
         }
 
         // onCreate 
@@ -160,7 +164,8 @@ export default function VacationForm({ id }:{ id? :number}) {
 
                     <Formik
                         initialValues={{
-                            id: id || 0,
+                            title : title,
+                            id: id || undefined,
                             start_at: startAt.toDate(),
                             end_at: endAt.toDate(),
                             vacationTypeId: vacationTypeId ,
@@ -198,6 +203,21 @@ export default function VacationForm({ id }:{ id? :number}) {
                                             Vacation Information
                                         </h6>
                                         <div className="flex flex-wrap">
+                                            {/* Input  */}
+                                            <div className="w-full lg:w-12/12 px-4">
+                                            <div className="relative w-full mb-3">
+                                                    <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="title">
+                                                        Title
+                                                    </label>
+                                                    <input id="title" type="text" value={title} name={"title"} onChange={
+                                                        (e) => {
+                                                            setTitle(e.target.value)
+                                                        }
+                                                    
+                                                    } className={"border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"} placeholder={"Enter a title"} />
+                                                    <ErrorMessage name={"title"} component="div" className="text-red-500 text-xs mt-2" />
+                                                </div>
+                                            </div>
                                             {/* Input  */}
                                             <div className="w-full lg:w-6/12 px-4">
                                                 <div className="relative w-full mb-3">
