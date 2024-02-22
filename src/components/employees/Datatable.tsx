@@ -153,7 +153,7 @@ const vacationContent = (vacations : Vacation[]) => {
             vacation.status === "APPROVED" ? "#87d068" : 
             vacation.status === "REJECTED" ? "#f50" : "#2db7f5" 
           }>
-            {vacation.status.toLocaleUpperCase()}
+            {vacation.status.toLocaleLowerCase()}
         </Tag>
       </li>
       ))}
