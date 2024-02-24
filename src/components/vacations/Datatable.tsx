@@ -100,7 +100,7 @@ export default   function  DataTable({
                 size="middle"
                 onClick={()=>{
                     setRouterLoading(record.id);
-                  router.push(`/vacations/edit/${record.id}`)
+                  router.push(`/dashboard/vacations/edit/${record.id}`)
                 }}
                 loading={routerLoading==record.id ? true : false}
               />

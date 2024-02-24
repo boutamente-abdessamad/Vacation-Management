@@ -1,10 +1,11 @@
+import { BASE_URl } from '@api/constants';
 import {  Vacation } from '@prisma/client';
 type VacationInput = Partial<Vacation>;
 import { QueryFunctionContext } from '@tanstack/react-query';
 
 export const createVacation = async (values: VacationInput ) => {
     try {
-        const resp = await fetch(`/api/vacations`, {
+        const resp = await fetch(`${BASE_URl}/api/vacations`, {
             method: 'POST',
             body: JSON.stringify(values),
             headers: {
@@ -26,7 +27,7 @@ export const createVacation = async (values: VacationInput ) => {
 
 export const updateVacation = async (values: Vacation ) => {
     try {
-        const resp = await fetch(`/api/vacations`, {
+        const resp = await fetch(`${BASE_URl}/api/vacations`, {
             method: 'PUT',
             body: JSON.stringify(values),
             headers: {
@@ -49,7 +50,7 @@ export const updateVacation = async (values: Vacation ) => {
 export const getVacations = async () => {
 
     try {
-        const data = await fetch(`/api/vacations`,{
+        const data = await fetch(`${BASE_URl}/api/vacations`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -69,7 +70,7 @@ export const getVacation = async ({ queryKey  } : QueryFunctionContext<[string, 
 
     try {
         const id = queryKey[1];
-        const data = await fetch(`/api/vacations?id=${id}`,{
+        const data = await fetch(`${BASE_URl}/api/vacations?id=${id}`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,7 +90,7 @@ export const getVacation = async ({ queryKey  } : QueryFunctionContext<[string, 
 
 export const deleteVacation = async (id: number) => {
     try {
-        const resp = await fetch(`/api/vacations`, {
+        const resp = await fetch(`${BASE_URl}/api/vacations`, {
             method: 'DELETE',
             body: JSON.stringify({id}),
             headers: {

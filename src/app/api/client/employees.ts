@@ -1,5 +1,5 @@
-import {  Employee,Vacation ,Prisma} from '@prisma/client';
-
+import {  Employee,Vacation } from '@prisma/client';
+import { BASE_URl } from '@api/constants';
 type EmployeeInput = Partial<Employee>;
 import { QueryFunctionContext } from '@tanstack/react-query';
 type CreateEmployeeBody ={
@@ -16,9 +16,11 @@ type EmployeeWithRelations = Employee & {
     vacations: Vacation[]
 }
 
+  
+
 export const createEmployee = async (values: CreateEmployeeBody ) => {
     try {
-        const resp = await fetch(`/api/employees`, {
+        const resp = await fetch(`${BASE_URl}/api/employees`, {
             method: 'POST',
             body: JSON.stringify(values),
             headers: {
@@ -40,7 +42,7 @@ export const createEmployee = async (values: CreateEmployeeBody ) => {
 
 export const updateEmployee = async (values: UpdateEmployeeBody ) => {
     try {
-        const resp = await fetch(`/api/employees`, {
+        const resp = await fetch(`${BASE_URl}/api/employees`, {
             method: 'PUT',
             body: JSON.stringify(values),
             headers: {
@@ -62,9 +64,8 @@ export const updateEmployee = async (values: UpdateEmployeeBody ) => {
 };
 
 export const getEmployees = async (): Promise<EmployeeWithRelations[]> => {
-
     try {
-        const data = await fetch(`/api/employees`,{
+        const data = await fetch(`${BASE_URl}/api/employees`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -84,7 +85,7 @@ export const getEmployee = async ({ queryKey  } : QueryFunctionContext<[string, 
 
     try {
         const id = queryKey[1];
-        const data = await fetch(`/api/employees?id=${id}`,{
+        const data = await fetch(`${BASE_URl}/api/employees?id=${id}`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -104,7 +105,7 @@ export const getEmployee = async ({ queryKey  } : QueryFunctionContext<[string, 
 
 export const deleteEmployee = async (id: number) => {
     try {
-        const resp = await fetch(`/api/employees`, {
+        const resp = await fetch(`${BASE_URl}/api/employees`, {
             method: 'DELETE',
             body: JSON.stringify({id}),
             headers: {

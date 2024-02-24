@@ -69,7 +69,7 @@ export default function VacationForm({ id }:{ id? :number}) {
                     type: 'success',
                     content: 'Vacation created successfully',
                 });
-                router.push('/vacations')
+                router.push('/dashboard/vacations')
             },
             onError: (error) => {
                 messageApi.open({
@@ -90,7 +90,7 @@ export default function VacationForm({ id }:{ id? :number}) {
                     type: 'success',
                     content: 'Vacation updated successfully',
                 });
-                router.push('/vacations')
+                router.push('/dashboard/vacations')
             },
             onError: (error) => {
                 messageApi.open({

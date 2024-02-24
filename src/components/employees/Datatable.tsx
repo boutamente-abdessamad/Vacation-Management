@@ -101,7 +101,7 @@ export default   function  DataTable({
                 size="middle"
                 onClick={()=>{
                     setRouterLoading(record.id);
-                  router.push(`/employees/edit/${record.id}`)
+                  router.push(`/dashboard/employees/edit/${record.id}`)
                 }}
                 loading={routerLoading==record.id ? true : false}
               />
@@ -145,19 +145,19 @@ const vacationContent = (vacations : Vacation[]) => {
 
   return (
     <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-      {vacations.map((vacation : Vacation, index : number) => (
-        <li key={index} className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">
-          <h5 className="text-lg text-slate-200" >{vacation.title}</h5>
-          <p className="ms-2">status : </p>
-          <Tag bordered={false} color={
-            vacation.status === "APPROVED" ? "#87d068" : 
-            vacation.status === "REJECTED" ? "#f50" : "#2db7f5" 
-          }>
-            {vacation.status.toLocaleLowerCase()}
-        </Tag>
-      </li>
-      ))}
-  </ul>
+        {vacations.map((vacation : Vacation, index : number) => (
+          <li key={index} className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">
+            <h5 className="text-lg text-slate-200" >{vacation.title}</h5>
+            <p className="ms-2">status : </p>
+            <Tag bordered={false} color={
+              vacation.status === "APPROVED" ? "#87d068" : 
+              vacation.status === "REJECTED" ? "#f50" : "#2db7f5" 
+            }>
+              {vacation.status.toLocaleLowerCase()}
+          </Tag>
+        </li>
+        ))}
+    </ul>
   
   )
 }

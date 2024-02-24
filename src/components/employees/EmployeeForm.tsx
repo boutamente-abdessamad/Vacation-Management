@@ -8,7 +8,7 @@ import { useMutation,useQuery } from '@tanstack/react-query'
 import {createEmployee,updateEmployee,getEmployee} from "@api/client/employees"
 import {getVacations} from "@api/client/vacations"
 import {  Employee,Vacation } from '@prisma/client';
-import { useRouter } from 'next/navigation';
+import { useRouter , useSearchParams } from 'next/navigation';
 import InputField from '@components/Fields/InputField';
 import { Spin } from 'antd';
 
@@ -52,7 +52,8 @@ export default function EmployeeForm({ id }:{ id? :number}) {
     const router = useRouter();
     const [messageApi, contextHolder] = message.useMessage();
     const [vacationOptions, setVacationOptions] = useState<vacationOptionsType[]>([]);
-
+    const searchParams = useSearchParams();
+    const source =   searchParams.get('source');
     const [selectedVacations, setSelectedVacations] = useState<Vacation[]>([]);
 
 
@@ -83,7 +84,7 @@ export default function EmployeeForm({ id }:{ id? :number}) {
                     type: 'success',
                     content: 'Employee created successfully',
                 });
-                router.push('/employees')
+                router.push('/dashboard/employees')
             },
             onError: (error) => {
                 messageApi.open({
@@ -104,7 +105,7 @@ export default function EmployeeForm({ id }:{ id? :number}) {
                     type: 'success',
                     content: 'Employee updated successfully',
                 });
-                router.push('/employees')
+                router.push('/dashboard/employees')
             },
             onError: (error) => {
                 console.log('error--',error);
@@ -139,10 +140,6 @@ export default function EmployeeForm({ id }:{ id? :number}) {
     const handelUpdate = (values: UpdateEmployeeBody ) => {
         mutateUpdate(values);
     }
-
-
-
-    console.log('updateErr',updateErr);
 
 
     return (
@@ -269,24 +266,28 @@ export default function EmployeeForm({ id }:{ id? :number}) {
                                             <div className="w-full lg:w-6/12 px-4">
                                                 <InputField forId="department" name="department" type="text" placeholder="Enter your department" label="Department" />
                                             </div>
-                                            <div className="w-full lg:w-12/12 px-4">
-                                                <div className="relative w-full mb-3">
-                                                    <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor={"vacationTypeId"}>
-                                                        Vacations
-                                                    </label>
-                                                    <Select
-                                                        mode="multiple"
-                                                        allowClear
-                                                        value={selectedVacations.map((v) => v.id.toString()) || []}
-                                                        style={{ width: "100%" }}
-                                                        onChange={(value: string[])=>{
-                                                            setSelectedVacations(vacations ? vacations.filter((v) => value.includes(v.id.toString())) : [])
-                                                        }}
-                                                        options={vacationOptions}
-                                                        />
-                                                    <ErrorMessage name={"vacationTypeId"} component="div" className="text-red-500 text-xs mt-2" />
-                                                </div>
-                                            </div>
+                                            {
+                                                source!="register" && (
+                                                    <div className="w-full lg:w-12/12 px-4">
+                                                        <div className="relative w-full mb-3">
+                                                            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor={"vacationTypeId"}>
+                                                                Vacations
+                                                            </label>
+                                                            <Select
+                                                                mode="multiple"
+                                                                allowClear
+                                                                value={selectedVacations.map((v) => v.id.toString()) || []}
+                                                                style={{ width: "100%" }}
+                                                                onChange={(value: string[])=>{
+                                                                    setSelectedVacations(vacations ? vacations.filter((v) => value.includes(v.id.toString())) : [])
+                                                                }}
+                                                                options={vacationOptions}
+                                                                />
+                                                            <ErrorMessage name={"vacationTypeId"} component="div" className="text-red-500 text-xs mt-2" />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
                             
                                         </div>
                                 

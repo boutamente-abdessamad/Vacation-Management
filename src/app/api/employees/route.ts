@@ -3,6 +3,8 @@ import { NextResponse ,NextRequest } from "next/server";
 import prisma from "@pisma/client";
 import type { NextApiRequest  } from "next";
 import {  Employee ,Vacation } from '@prisma/client';
+import { SHA256 as sha256 } from "crypto-js";
+
 type CreateEmployeeInput = Omit<Employee, 'id'>;
 type CreateEmployeeBody ={
     employee : CreateEmployeeInput,
@@ -12,6 +14,12 @@ type UpdateEmployeeBody ={
     employee : Employee,
     vacations : Vacation[]
 }
+
+
+const hashPassword = (string : string) => {
+    return sha256(string).toString();
+};
+
 export  async function POST(req: NextApiRequest){
     try {
         let passedValue = await new Response(req.body).text();
@@ -35,8 +43,8 @@ export  async function POST(req: NextApiRequest){
         if (existingEmployee) {
             return NextResponse.json({ message: 'Email already exists' }, { status: 400 });
         }
-        
-
+        const hashedPassword = hashPassword(employee.password);
+        employee.password = hashedPassword;
         await prisma.employee.create({
             data: {
                 ...employee,

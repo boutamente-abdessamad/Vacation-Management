@@ -1,10 +1,11 @@
+import { BASE_URl } from '@api/constants';
 import {  VacationType } from '@prisma/client';
 type VacationTypeInput = Partial<VacationType>;
 import { QueryFunctionContext } from '@tanstack/react-query';
 
 export const createVacationType = async (values: VacationTypeInput ) => {
     try {
-        const resp = await fetch(`/api/vacation-types`, {
+        const resp = await fetch(`${BASE_URl}/api/vacation-types`, {
             method: 'POST',
             body: JSON.stringify(values),
             headers: {
@@ -26,7 +27,7 @@ export const createVacationType = async (values: VacationTypeInput ) => {
 
 export const updateVacationType = async (values: VacationType ) => {
     try {
-        const resp = await fetch(`/api/vacation-types`, {
+        const resp = await fetch(`${BASE_URl}/api/vacation-types`, {
             method: 'PUT',
             body: JSON.stringify(values),
             headers: {
@@ -49,7 +50,7 @@ export const updateVacationType = async (values: VacationType ) => {
 export const getVacationTypes = async () => {
 
     try {
-        const data = await fetch(`/api/vacation-types`,{
+        const data = await fetch(`${BASE_URl}/api/vacation-types`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -69,7 +70,7 @@ export const getVacationType = async ({ queryKey  } : QueryFunctionContext<[stri
 
     try {
         const id = queryKey[1];
-        const data = await fetch(`/api/vacation-types?id=${id}`,{
+        const data = await fetch(`${BASE_URl}/api/vacation-types?id=${id}`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,7 +90,7 @@ export const getVacationType = async ({ queryKey  } : QueryFunctionContext<[stri
 
 export const deleteVacationType = async (id: number) => {
     try {
-        const resp = await fetch(`/api/vacation-types`, {
+        const resp = await fetch(`${BASE_URl}/api/vacation-types`, {
             method: 'DELETE',
             body: JSON.stringify({id}),
             headers: {

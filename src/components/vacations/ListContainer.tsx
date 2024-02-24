@@ -27,7 +27,7 @@ export default function ListContainer() {
                 buttonTitle="Add Vacation"
                 handelClick={() => {
                     setLoading(true)
-                    router.push('/vacations/create')
+                    router.push('/dashboard/vacations/create')
                 }}
                 loading={loading}
             />
