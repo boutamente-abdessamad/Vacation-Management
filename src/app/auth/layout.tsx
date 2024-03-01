@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import  {Sidebar}  from "@components/layout/Sidebar";
-import  {Navbar}  from "@components/layout/Navbar";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
-import NextTopLoader from 'nextjs-toploader';
 import ReactQueryProvider from "@utils/ReactQueryProvider";
-
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -14,14 +12,14 @@ export const metadata: Metadata = {
 };
 import theme from '../../../theme/themeConfig';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+  const authSession = await getServerSession(); 
   // Create a client
-
+  authSession?.user && redirect('/dashboard')
   return (
     <html lang="en">
       <ConfigProvider theme={theme}>

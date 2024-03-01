@@ -14,3 +14,8 @@
 * {
   font-family: 'Cairo', sans-serif;
 }
+
+body .react-calendar-timeline .rct-header-root {
+  background: #713f12;
+  border-bottom: 1px solid #fef08a;
+}
